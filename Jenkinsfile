@@ -27,4 +27,16 @@ node {
         sh "docker login -u ${env.DOCKERHUB_USERNAME} -p ${env.DOCKERHUB_PASSWORD} -e demo@mesosphere.com"
         sh "docker push zkthrowaway/qcon-mesos-zkhan:${gitCommit()}"
     }
+
+    // Deploy
+    stage 'Deploy'
+
+    marathon(
+        url: 'http://marathon.mesos:8080',
+        forceUpdate: false,
+        credentialsId: 'dcos-token',
+        filename: 'marathon.json',
+        appId: 'nginx-mesos-zkhan',
+        docker: "zkthrowaway/qcon-mesos-zkhan:${gitCommit()}".toString()
+    )
 }
