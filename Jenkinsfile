@@ -12,7 +12,7 @@ node {
 
     // Build Docker image
     stage 'Build'
-    sh "docker build -t qcon-mesos-zkhan:${gitCommit()} ."
+    sh "docker build -t zkthrowaway/qcon-mesos-zkhan:${gitCommit()} ."
 
     // Log in and push image to GitLab
     stage 'Publish'
